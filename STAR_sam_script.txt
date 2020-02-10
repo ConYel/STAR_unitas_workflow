@@ -14,5 +14,7 @@ echo "---- now sorting ----"
 samtools sort -O bam -o ${starOutDir}/${regex}_align/${regex}_sorted.bam -@ ${threads} ${starOutDir}/${regex}_align/${regex}_Aligned.out.sam
 echo "---- now making the fastq ----"
 samtools fastq -F 4 -@ ${threads} ${starOutDir}/${regex}_align/${regex}_sorted.bam > ${starOutDir}/${regex}_align/${regex}_sorted.fastq
-#echo "---- removing the sam ----"
-#rm ${starOutDir}/${regex}_align/${regex}_Aligned.out.sam
+echo "---- removing not sorted sam ----"
+rm ${starOutDir}/${regex}_align/${regex}_Aligned.out.sam
+echo "---- making sorted sam for protrac ----"
+samtools view -h -o ${starOutDir}/${regex}_align/${regex}_sorted.sam in.bam ${starOutDir}/${regex}_align/${regex}_sorted.bam
