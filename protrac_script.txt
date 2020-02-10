@@ -1,0 +1,11 @@
+#!/bin/bash
+
+SAM=$1 # input SAM file
+         # <file>_trimmed.fastq.gz
+#GENOME=$2
+#REPEATMASK=$3
+#GENESET_GTF=$4
+
+
+perl proTRAC_2.4.4.pl -map ${SAM} -genome my_data/genome/hg38.fa -repeatmasker hg38.fa.out -geneset gencode.v33.primary_assembly.annotation.gtf -pimax 34 -1Tor10A 0.25 -1Tand10A 0.25
+
