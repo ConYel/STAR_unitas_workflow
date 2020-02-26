@@ -7,6 +7,7 @@ starOutDir=$3 #outdir
 
 str="${FASTQ##*/}"
 regex="${str%%.fastq.gz}"
+regex="${str%%.fq.gz}"
 mkdir ${starOutDir}/${regex}_align
 echo "---- working on ${regex} file ----"
 STAR --genomeDir "/home/my_data/genome/hg38/star" --genomeLoad LoadAndKeep  --readFilesIn ${FASTQ} --readFilesCommand zcat --runThreadN $threads --alignIntronMax 1 --outSAMattributes NH HI NM MD --outFilterMult$
