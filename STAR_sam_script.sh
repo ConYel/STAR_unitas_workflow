@@ -1,8 +1,9 @@
 #!/bin/bash
 FASTQ=$1 # input FASTQ file
          # <file>_trimmed.fastq.gz
-threads=$2 #${THREADS}
-starOutDir=$3 #outdir
+genome=$2 #genome folder
+threads=$3 #${THREADS}
+starOutDir=$4 #outdir
 
 
 str="${FASTQ##*/}"
@@ -10,7 +11,7 @@ regex="${str%%.fastq.gz}"
 regex="${str%%.fq.gz}"
 mkdir ${starOutDir}/${regex}_align
 echo "---- working on ${regex} file ----"
-STAR --genomeDir "/home/my_data/genome/hg38/star" --genomeLoad LoadAndKeep  --readFilesIn ${FASTQ} --readFilesCommand zcat --runThreadN $threads --alignIntronMax 1 --outSAMattributes NH HI NM MD --outFilterMult$
+STAR --genomeDir $genome --genomeLoad LoadAndKeep --readFilesIn ${FASTQ} --readFilesCommand zcat --runThreadN $threads --alignIntronMax 1 --outSAMattributes NH HI NM MD --outFilterMultimapNmax 100 --outReadsUnmapped Fastx --outFilterMismatchNmax 1 --outFilterMatchNmin 14 --outFileNamePrefix ${starOutDir}/${regex}_align
 echo "---- now sorting ----"
 samtools sort -O bam -o ${starOutDir}/${regex}_align/${regex}_sorted.bam -@ ${threads} ${starOutDir}/${regex}_align/${regex}_Aligned.out.sam
 echo "---- now making the fastq ----"
